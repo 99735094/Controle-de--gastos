@@ -13,7 +13,7 @@ export default function Movimentos({ data }) {
 
     const [valores, setValores] = useState(false);
     const [total, setTotal] = useState([ ]);
-    const [array, setArray] = useState([ ]);
+    const [array, setArray] = useState(data.valor);
 
 
 
@@ -39,10 +39,8 @@ export default function Movimentos({ data }) {
 
     }
     function banner() {
-      
-        setArray(data.valor)
-        setTotal(...array);
-        console.log(total);
+        setTotal([...total, array]);
+        //console.log(total);
 
     }
     useEffect(() => {

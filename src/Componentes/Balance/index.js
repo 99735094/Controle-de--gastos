@@ -8,14 +8,6 @@ export default function Balance({ saldo, gastos }) {
   return (
     <View style={styles.container}>
       <View style={styles.item}>
-        <Text style={styles.itemTitle}>Saldo</Text>
-        <View style={styles.content}>
-          <Text style={styles.simbolo}>R$</Text>
-          <Text style={styles.balance}>{saldo}</Text>
-        </View>
-      </View>
-
-      <View style={styles.item}>
         <Text style={styles.itemTitle}>Gastos</Text>
         <View style={styles.content}>
           <Text style={styles.simbolo}>R$</Text>
@@ -60,7 +52,14 @@ const styles = StyleSheet.create({
     color: '#2ecc71',
   },
   gastos: {
-    fontSize: 22,
+    fontSize: 32,
     color: '#e74c3c',
+    fontWeight:'bold'
+  },
+  item: {
+    justifyContent: 'center',
+    alignItems:'center',
+    paddingStart: 120,
   }
+
 })

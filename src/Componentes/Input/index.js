@@ -25,11 +25,11 @@ const Input = () => {
   const [valor, setValor] = useState('');
   const [data, setData] = useState('');
   const [type, setType] = useState('');
- 
-  const [balanco, setBalanco] = useState('');
-  const [list, setList] = useState(['']);
 
-  const [value, setValue] = useState('');
+  const [balanco, setBalanco] = useState();
+  const [list, setList] = useState([]);
+
+  const [value, setValue] = useState([]);
 
 
   // Funcao cadastrar no banco
@@ -45,7 +45,7 @@ const Input = () => {
           data,
           type,
         });
-     
+
 
       });
 
@@ -54,12 +54,12 @@ const Input = () => {
       Alert.alert(" Gastos ", 'Algo deu errado');
       realm.close();
     }
-    finally{
-   
+    finally {
+
     }
-   
-  
-   
+    banner();
+
+
   }
 
   // Funcao pegar no banco
@@ -77,9 +77,23 @@ const Input = () => {
     }
 
   }
-  // somar
-  
- 
+  //map
+
+  function banner() {
+    setList(value);
+    const soma = list.map(item => parseFloat(item.valor));
+    let somatoria = 0;
+    for (let item of soma) {
+      somatoria += item;
+
+    }
+    console.log(somatoria);
+    setBalanco(somatoria);
+
+
+  }
+
+
   //apagar dados
   async function apagarDados() {
     const realm = await getRealm();
@@ -92,52 +106,53 @@ const Input = () => {
 
   useEffect(() => {
     pegarDados();
-    //somar();
-   
+    banner();
+    
+
   }, [])
 
   return (
 
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Balance saldo={balanco} gastos={`-${valor}`} />
-  
-          <TextInput
-            style={styles.input}
-            placeholder='Informacao'
-            onChangeText={(text) => setLabel(text)}
+      <Balance saldo={balanco} gastos={balanco} />
 
-          />
-          <TextInput
-            style={styles.input}
-            placeholder='Valor'
-            onChangeText={(text) => setValor(text)}
-            keyboardType="numeric"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder='Data'
-            onChangeText={(text) => setData(text)}
-            keyboardType="numeric"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder='Observacao'
-            onChangeText={(text) => setType(text)}
-          />
+      <TextInput
+        style={styles.input}
+        placeholder='Informacao'
+        onChangeText={(text) => setLabel(text)}
 
-          <TouchableOpacity
-            style={styles.guardar}
-            onPress={guardar}
-          >
-            <Text style={styles.txt} >Carregar</Text>
-          </TouchableOpacity>
+      />
+      <TextInput
+        style={styles.input}
+        placeholder='Valor'
+        onChangeText={(text) => setValor(text)}
+        keyboardType="numeric"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder='Data'
+        onChangeText={(text) => setData(text)}
+        keyboardType="numeric"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder='Observacao'
+        onChangeText={(text) => setType(text)}
+      />
 
-          <TouchableOpacity
-            style={styles.guardar}
-            onPress={apagarDados}>
-            <Text style={styles.txt} >Apagar</Text>
-          </TouchableOpacity>
-        
+      <TouchableOpacity
+        style={styles.guardar}
+        onPress={guardar}
+      >
+        <Text style={styles.txt} >Carregar</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.guardar}
+        onPress={apagarDados}>
+        <Text style={styles.txt} >Apagar</Text>
+      </TouchableOpacity>
+
       <FlatList
         data={value}
         keyExtractor={item => String(item.id)}
@@ -222,6 +237,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#fff'
   },
- 
+
 
 })
